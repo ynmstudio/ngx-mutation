@@ -1,27 +1,109 @@
 # NGX Mutation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+A service that emits changes being made to the DOM tree utilizing [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```shell
+npm install ngx-mutation
+```
 
-## Code scaffolding
+## Usage
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+There are two approaches of using `ngx-mutation`. Both approaches results an `Observable<NgxMutationResult>`
 
-## Build
+```ts
+export interface NgxMutationResult {
+  readonly mutation: ReadonlyArray<MutationRecord>;
+}
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### `injectNgxMutation()`
 
-## Running unit tests
+If you're on Angular 14+ and are using `inject()` for **Dependency Injection**, you can use `injectNgxMutation()` to grab the `Observable<NgxMutationResult>`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+@Component({})
+export class SomeComponent {
+  readonly resizeResult$ = injectNgxMutation(); // Observable<NgxMutationResult>
+}
+```
 
-## Running end-to-end tests
+`injectNgxMutation()` accepts a `Partial<NgxMutationOptions>` and will be merged with the default global options.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```ts
+export interface NgxMutationOptions {
+  /* "config" options that is passed in new MutationObserver */
+  config: MutationObserverInit;
+  /* time in ms to debounce the events; */
+  debounce: number;
+  /* emit in NgZone or not. Default to "true" */
+  emitInZone: boolean;
+  /* emit the initial DOMRect of nativeElement. Default to "false" */
+  emitInitialResult: boolean;
+}
 
-## Further help
+export const defaultMutationOptions: NgxMutationOptions = {
+  config: {
+    attributes: true,
+    characterData: true,
+    childList: true,
+  },
+  debounce: 0,
+  emitInZone: true,
+  emitInitialResult: false,
+};
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### With `Output`
+
+Instead of getting the `Observable<NgxMutationResult>`, you can assign `injectNgxMutation()` to an `Output` directly
+
+```ts
+@Component({})
+export class SomeComponent {
+  @Output() resize = injectNgxMutation(); // resize emits everytime NgxMutation emits
+}
+```
+
+```html
+<some-component (resize)="onResize($event)"></some-component>
+<!-- $event is of type NgxMutationResult -->
+```
+
+### `NgxMutation`
+
+If you're not using `inject()`, you can use the `NgxMutation` directive
+
+```html
+<some-component (ngxMutation)="onResize($event)"></some-component>
+<some-component
+  (ngxMutation)="onResize($event)"
+  [ngxMutationOptions]="optionalOptions"
+></some-component>
+```
+
+#### With `hostDirectives`
+
+With Angular 15, you can also use `NgxMutation` as a `hostDirectives` and expose `ngxMutation` Output
+
+```ts
+@Component({
+  hostDirectives: [{ directive: NgxMutation, outputs: ["ngxMutation"] }],
+})
+export class SomeComponent {
+  @HostListener("ngxMutation", ["$event"])
+  onMutate(event: NgxMutationResult) {
+    // listen for resize event from NgxMutation
+  }
+}
+```
+
+## Provide global `NgxMutationOptions`
+
+You can use `provideNgxMutationOptions()` to provide global options for a specific Component tree. If you call `provideNgxMutationOptions()` in `bootstrapApplication()` (for Standalone) and `AppModule` (for NgModule)
+then the options is truly global.
+
+## Contributions
+
+All contributions of any kind are welcome.

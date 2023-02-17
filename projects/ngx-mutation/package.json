@@ -1,6 +1,6 @@
 {
   "name": "ngx-mutation",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha",
   "contributors": [
     {
       "name": "Denis Yilmaz",
@@ -10,8 +10,11 @@
   ],
   "description": "Angular directive for using MutationObserver",
   "keywords": [
-    "angular",
-    "MutationObserver"
+    "Angular",
+    "MutationObserver",
+    "Nodes",
+    "Mutation",
+    "Standalone"
   ],
   "repository": {
     "type": "git",
