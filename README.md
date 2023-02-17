@@ -62,12 +62,12 @@ Instead of getting the `Observable<NgxMutationResult>`, you can assign `injectNg
 ```ts
 @Component({})
 export class SomeComponent {
-  @Output() resize = injectNgxMutation(); // resize emits everytime NgxMutation emits
+  @Output() mutate = injectNgxMutation(); // mutate emits everytime NgxMutation emits
 }
 ```
 
 ```html
-<some-component (resize)="onResize($event)"></some-component>
+<some-component (ngxMutation)="onMutate($event)"></some-component>
 <!-- $event is of type NgxMutationResult -->
 ```
 
@@ -76,9 +76,9 @@ export class SomeComponent {
 If you're not using `inject()`, you can use the `NgxMutation` directive
 
 ```html
-<some-component (ngxMutation)="onResize($event)"></some-component>
+<some-component (ngxMutation)="onMutate($event)"></some-component>
 <some-component
-  (ngxMutation)="onResize($event)"
+  (ngxMutation)="onMutate($event)"
   [ngxMutationOptions]="optionalOptions"
 ></some-component>
 ```
@@ -94,7 +94,7 @@ With Angular 15, you can also use `NgxMutation` as a `hostDirectives` and expose
 export class SomeComponent {
   @HostListener("ngxMutation", ["$event"])
   onMutate(event: NgxMutationResult) {
-    // listen for resize event from NgxMutation
+    // listen for mutation event from NgxMutation
   }
 }
 ```
@@ -107,3 +107,7 @@ then the options is truly global.
 ## Contributions
 
 All contributions of any kind are welcome.
+
+## Thanks
+
+This directive is heavily inspired on the `ngx-resize` directive by [Chau Tran](https://twitter.com/Nartc1410). https://github.com/nartc/ngx-resize
