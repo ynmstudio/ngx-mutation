@@ -25,7 +25,7 @@ If you're on Angular 14+ and are using `inject()` for **Dependency Injection**, 
 ```ts
 @Component({})
 export class SomeComponent {
-  readonly resizeResult$ = injectNgxMutation(); // Observable<NgxMutationResult>
+  readonly mutationResult$ = injectNgxMutation(); // Observable<NgxMutationResult>
 }
 ```
 
