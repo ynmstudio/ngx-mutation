@@ -1,0 +1,28 @@
+.changed {
+  font-weight: bolder;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  .record {
+    padding: 1em;
+    margin: 0;
+    h3 {
+      margin: 0 0 0.5em;
+    }
+    &.added {
+      background-color: #cfc;
+    }
+    &.removed {
+      background-color: #fcc;
+    }
+    // &:nth-child(even) {
+    //   background-color: #eee;
+    // }
+  }
+}

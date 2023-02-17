@@ -1,0 +1,28 @@
+{
+  "name": "ngx-mutation",
+  "version": "0.0.1",
+  "contributors": [
+    {
+      "name": "Denis Yilmaz",
+      "email": "denis@ynm.studio",
+      "url": "https://ynm.studio"
+    }
+  ],
+  "description": "Angular directive for using MutationObserver",
+  "keywords": [
+    "angular",
+    "MutationObserver"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ynmstudio/ngx-mutation/tree/main/projects/ngx-mutation"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

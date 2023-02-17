@@ -1,0 +1,49 @@
+<div (ngxMutation)="onMutation($event)">
+  <h1>NGX Mutation Demo</h1>
+  <p>Click the button to add a new paragraph.</p>
+  <div>
+    <button (click)="addParagraph()">Add Paragraph</button>
+    <button (click)="reset()">Reset</button>
+    <button (click)="random()">Random</button>
+  </div>
+
+  <p *ngFor="let paragraph of paragraphs">
+    <span>{{ paragraph.id }}.&ngsp;</span>
+    <span [innerHtml]="paragraph.text"></span>
+  </p>
+</div>
+<div class="small">
+  <h2>MutationRecords</h2>
+  <ul>
+    <li
+      class="record"
+      [ngClass]="{
+        added: mutation.addedNodes.length,
+        removed: mutation.removedNodes.length
+      }"
+      *ngFor="let mutation of result?.mutations"
+    >
+      <h3>MutationRecord</h3>
+      <ul>
+        <li>Target: {{ mutation.target | json }}</li>
+        <li>Type: {{ mutation.type }}</li>
+        <li [class.changed]="mutation.addedNodes.length">
+          Added Nodes: {{ mutation.addedNodes | json }}
+        </li>
+        <li [class.changed]="mutation.removedNodes.length">
+          Removed Nodes: {{ mutation.removedNodes | json }}
+        </li>
+        <li>Previous Sibling: {{ mutation.previousSibling | json }}</li>
+        <li>Next Sibling: {{ mutation.nextSibling | json }}</li>
+        <li>Attribute Name: {{ mutation.attributeName | json }}</li>
+        <li>Attribute Namespace: {{ mutation.attributeNamespace | json }}</li>
+        <li>Old Value: {{ mutation.oldValue | json }}</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<hr />
+<pre>
+  {{ result | json }}
+</pre>
+<hr />
